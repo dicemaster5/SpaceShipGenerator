@@ -34,27 +34,24 @@ def generateSpaceShipImage():
     wingSection = square * 9
 
     shipPartsImg = Image.open("ShipParts/ShipParts.png")
-    # w0, h0 = shipPartsImg.size
 
     cockPitSize = (square * 3, square * 2)
     mainHaulSize = (square * 3, square * 2)
     thrusterSize = (square * 3, square * 2)
     wingSize = (square * 2, square * 3)
 
-    pointerPos = (cockPitSize[0] + square) * random.randint(1,3)
-
-
+    pointerPos = (cockPitSize[0] + square) * random.randint(1, 3)
     # Areas to crop at -- NEEDS TO BE RANDOM! --
     newCockpit = shipPartsImg.crop((pointerPos, cockPitSection, pointerPos + cockPitSize[0], cockPitSection + cockPitSize[1]))
 
     random.seed()
-    pointerPos = (cockPitSize[0] + square) * random.randint(1,3)
+    pointerPos = (cockPitSize[0] + square) * random.randint(1, 3)
     newMainHull = shipPartsImg.crop((pointerPos, mainHaulSection, pointerPos + mainHaulSize[0], mainHaulSection + mainHaulSize[1]))
     random.seed()
-    pointerPos = (cockPitSize[0] + square) * random.randint(1,3)
+    pointerPos = (cockPitSize[0] + square) * random.randint(1, 3)
     newThruster = shipPartsImg.crop((pointerPos, thrusterSection, pointerPos + thrusterSize[0], thrusterSection + thrusterSize[1]))
     random.seed()
-    pointerPos = (wingSize[0] + square) * random.randint(1,4)
+    pointerPos = (wingSize[0] + square) * random.randint(1, 4)
     newWing1 = shipPartsImg.crop((pointerPos, wingSection, pointerPos + wingSize[0], wingSection + wingSize[1]))
     newWing2 = ImageOps.mirror(newWing1)
 
@@ -75,6 +72,22 @@ def generateSpaceShipImage():
 
     newShip = newShip.resize((224, 224), Image.NEAREST)
     newShip.save("ShipParts/out.png")
+
+
+    # CHANGE COLOUR
+    im = Image.open("ShipParts/out.png")
+    im = im.convert('RGBA')
+
+    data = np.array(im)  # "data" is a height x width x 4 numpy array
+    red, green, blue, alpha = data.T  # Temporarily unpack the bands for readability
+
+    # Replace white with red... (leaves alpha values alone...)
+    pink_areas = (red == 255) & (blue == 147) & (green == 20)
+    random.seed()
+    data[..., :-1][pink_areas.T] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))  # Transpose back needed
+
+    im2 = Image.fromarray(data)
+    im2.save("ShipParts/out.png")
 
 if __name__ == "__main__":
     if True:
