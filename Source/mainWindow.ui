@@ -35,7 +35,7 @@ font: &quot;8514oem&quot;;</string>
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>300</y>
+      <y>330</y>
       <width>231</width>
       <height>31</height>
      </rect>
@@ -53,7 +53,7 @@ font: 6pt &quot;8514oem&quot;;</string>
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>20</y>
+      <y>50</y>
       <width>256</width>
       <height>256</height>
      </rect>
@@ -84,7 +84,7 @@ image-rendering: crisp-edges;
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>340</y>
+      <y>370</y>
       <width>181</width>
       <height>22</height>
      </rect>
@@ -107,11 +107,11 @@ font: &quot;8514oem&quot;;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="Seed">
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>340</y>
+      <y>370</y>
       <width>51</width>
       <height>21</height>
      </rect>
@@ -135,6 +135,36 @@ font: 4pt &quot;8514oem&quot;;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ShipName">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>20</y>
+      <width>251</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>8514oem</family>
+      <pointsize>4</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(75, 75, 75);
+color: white;
+font: 4pt &quot;8514oem&quot;;</string>
+    </property>
+    <property name="text">
+     <string> ShipName:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>

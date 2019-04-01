@@ -24,9 +24,9 @@ class QtWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         randShip.randomSeed()
         randShip.generateSpaceShip(randShip.shipSeed)
         self.SeedInput.setText(randShip.shipSeed)
-
+        self.ShipName.setText(randShip.name)
         self.ShipView.setPixmap(QtGui.QPixmap("ShipParts/out.png"))
-        print(randShip.shipSeed)
+        #print(randShip.shipSeed)
 
     def GenerateShipWithSeed(self):
         randShip.shipSeed = self.SeedInput.text()
@@ -34,6 +34,8 @@ class QtWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         randShip.generateSpaceShip(randShip.shipSeed)
         self.ShipView.setPixmap(QtGui.QPixmap("ShipParts/out.png"))
+        self.ShipName.setText(randShip.name)
+
 
 
 

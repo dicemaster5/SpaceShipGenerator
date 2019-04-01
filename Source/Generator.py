@@ -22,11 +22,17 @@ class ShipGenerator:
         self.shipSeed = str(random.randint(0, 99999999))
         #random.seed(self.shipSeed)
 
+    def randomShipName(self):
+        shipNames = ["Bebop", "Daedalus", "Explorer", "X-71s", "Mayflower One", "Excelsior", "Anastasia",
+                     "F-302 Mongoose", "Odyssey", "Scorpio E-X-1", "Zero-X", "Athena", "Avalon", "Axiom", "Hyperion"
+                     "Nemesis", "Prometheus", "SDF-1 Macross", "Red Dwarf"]
+        self.name = shipNames[random.randrange(0, shipNames.__len__())]
 
     # Creates a ship made of defined rooms
     def generateSpaceShip(self, seed):
         random.seed(seed)
         square = 16
+        self.randomShipName()
 
         cockPitSection = 0
         mainHaulSection = square * 3
