@@ -5,7 +5,7 @@ from PIL import Image, ImageOps
 
 class ShipGenerator:
     def __init__(self):
-        self.name = "THE GREAT SHIP!"
+        self.name = "!ERROR!-ShipNameNotFound"
         #self.rooms = {}
         self.shipSeed = ""
 
@@ -24,16 +24,17 @@ class ShipGenerator:
 
     def randomShipName(self):
         shipNames = ["Bebop", "Daedalus", "Explorer", "X-71s", "Mayflower One", "Excelsior", "Anastasia",
-                     "F-302 Mongoose", "Odyssey", "Scorpio E-X-1", "Zero-X", "Athena", "Avalon", "Axiom", "Hyperion"
-                     "Nemesis", "Prometheus", "SDF-1 Macross", "Red Dwarf"]
+                     "F-302 Mongoose", "Odyssey", "Scorpio E-X-1", "Zero-X", "Athena", "Avalon", "Axiom",
+                     "Hyperion", "Nemesis", "Prometheus", "SDF-1 Macross", "Red Dwarf"]
         self.name = shipNames[random.randrange(0, shipNames.__len__())]
 
-    # Creates a ship made of defined rooms
+    # Creates a ship made of defined parts
     def generateSpaceShip(self, seed):
         random.seed(seed)
         square = 16
         self.randomShipName()
 
+        # Sizes for each spaceship section
         cockPitSection = 0
         mainHaulSection = square * 3
         thrusterSection = square * 6
@@ -44,8 +45,8 @@ class ShipGenerator:
         thrusterSize = (square * 3, square * 2)
         wingSize = (square * 2, square * 3)
 
+        # The pointer position on the canvas choosing a random part to be used
         pointerPos = (cockPitSize[0] + square) * random.randint(1, 3)
-
         newCockpit = self.shipPartsImg.crop(
             (pointerPos, cockPitSection, pointerPos + cockPitSize[0], cockPitSection + cockPitSize[1]))
 
@@ -58,7 +59,8 @@ class ShipGenerator:
             (pointerPos, thrusterSection, pointerPos + thrusterSize[0], thrusterSection + thrusterSize[1]))
 
         pointerPos = (wingSize[0] + square) * random.randint(1, 4)
-        newWing1 = self.shipPartsImg.crop((pointerPos, wingSection, pointerPos + wingSize[0], wingSection + wingSize[1]))
+        newWing1 = self.shipPartsImg.crop(
+            (pointerPos, wingSection, pointerPos + wingSize[0], wingSection + wingSize[1]))
         newWing2 = ImageOps.mirror(newWing1)
 
         # Parts positions to put a ship together
@@ -68,7 +70,7 @@ class ShipGenerator:
         wingPos1 = (0, 16)
         wingPos2 = (64 + 16, 16)
 
-        # Paste new parts to make ship
+        # Paste new parts to make the new random ship
         newShip = Image.new('RGBA', self.SpaceShipSize)
         newShip.paste(newCockpit, cockPitPos)
         newShip.paste(newMainHull, mainHaulPos)
@@ -85,5 +87,9 @@ class ShipGenerator:
         data[..., :-1][pink_areas.T] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
         newShip = Image.fromarray(data)
+
+        # Resize the ship
         newShip = newShip.resize(self.newSpaceShipSize, Image.NEAREST)
+
+        # Save the ship
         newShip.save(self.newShipOutput)

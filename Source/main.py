@@ -17,6 +17,7 @@ class QtWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
+        # User Buttons that do stuff
         self.RandoButton.clicked.connect(lambda: self.GenerateShipButton())
         self.SeedInput.returnPressed.connect(lambda: self.GenerateShipWithSeed())
 
@@ -35,10 +36,6 @@ class QtWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         randShip.generateSpaceShip(randShip.shipSeed)
         self.ShipView.setPixmap(QtGui.QPixmap("ShipParts/out.png"))
         self.ShipName.setText(randShip.name)
-
-
-
-
 
 
 if __name__ == "__main__":
