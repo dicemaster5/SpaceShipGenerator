@@ -28,6 +28,46 @@ class ShipGenerator:
                      "Hyperion", "Nemesis", "Prometheus", "SDF-1 Macross", "Red Dwarf"]
         self.name = shipNames[random.randrange(0, shipNames.__len__())]
 
+    # Picks a random colour scheme and applies it to the ship
+    def changeTheColour(self, spaceShipImage):
+        # Setup
+        i = 0
+        square = 16
+        amountOfColours = 6
+        amountOfSchemes = 5
+
+        defaultScheme = (i * square, square * 13)
+        randomColourScheme = random.randint(1, amountOfSchemes)
+        partsImg = self.shipPartsImg.load()
+        shipImg = spaceShipImage.load()
+
+        colourPointerPos = defaultScheme
+        currentColour = partsImg[colourPointerPos]
+
+        colourPointerPos = (0, square * randomColourScheme + square * 13)
+        newColour = partsImg[colourPointerPos]
+
+
+        while i < amountOfColours:
+            colourPointerPos = (i * square, square * 13)
+            currentColour = partsImg[colourPointerPos]
+
+            colourPointerPos = (i * square, square * randomColourScheme + square * 13)
+            newColour = partsImg[colourPointerPos]
+
+            # Change every pixel colour of the spaceShip Image
+            for pixelX in range(spaceShipImage.size[0]):
+                for pixelY in range(spaceShipImage.size[1]):
+                    if shipImg[pixelX, pixelY] == currentColour:
+                        if newColour == (0,0,0,255):
+                            newColour = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), 255)
+                        else:
+                            shipImg[pixelX, pixelY] = newColour
+            i += 1
+
+        # Return the new coloured spaceship
+        return spaceShipImage
+
     # Creates a ship made of defined parts
     def generateSpaceShip(self, seed):
         random.seed(seed)
@@ -58,7 +98,7 @@ class ShipGenerator:
         newThruster = self.shipPartsImg.crop(
             (pointerPos, thrusterSection, pointerPos + thrusterSize[0], thrusterSection + thrusterSize[1]))
 
-        pointerPos = (wingSize[0] + square) * random.randint(1, 4)
+        pointerPos = (wingSize[0] + square) * random.randint(1, 5)
         newWing1 = self.shipPartsImg.crop(
             (pointerPos, wingSection, pointerPos + wingSize[0], wingSection + wingSize[1]))
         newWing2 = ImageOps.mirror(newWing1)
@@ -78,15 +118,8 @@ class ShipGenerator:
         newShip.paste(newWing1, wingPos1)
         newShip.paste(newWing2, wingPos2)
 
-        # CHANGE COLOUR
-        data = np.array(newShip)  # "data" is a height x width x 4 numpy array
-        red, green, blue, alpha = data.T  # Temporarily unpack the bands for readability
-
-        pink_areas = (red == 255) & (blue == 147) & (green == 20)
-        # random.seed()
-        data[..., :-1][pink_areas.T] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-
-        newShip = Image.fromarray(data)
+        # Change the colour of the Ship
+        newShip = self.changeTheColour(newShip)
 
         # Resize the ship
         newShip = newShip.resize(self.newSpaceShipSize, Image.NEAREST)

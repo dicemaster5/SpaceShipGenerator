@@ -22,21 +22,25 @@ class QtWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.SeedInput.returnPressed.connect(lambda: self.GenerateShipWithSeed())
 
     def GenerateShipButton(self):
-        randShip.randomSeed()
-        randShip.generateSpaceShip(randShip.shipSeed)
-        self.SeedInput.setText(randShip.shipSeed)
-        self.ShipName.setText(randShip.name)
-        self.ShipView.setPixmap(QtGui.QPixmap("ShipParts/out.png"))
-        #print(randShip.shipSeed)
+        try:
+            randShip.randomSeed()
+            randShip.generateSpaceShip(randShip.shipSeed)
+            self.SeedInput.setText(randShip.shipSeed)
+            self.ShipName.setText(randShip.name)
+            self.ShipView.setPixmap(QtGui.QPixmap("ShipParts/out.png"))
+        except Exception as err:
+            print(err)
 
     def GenerateShipWithSeed(self):
-        randShip.shipSeed = self.SeedInput.text()
-        print(randShip.shipSeed)
+        try:
+            randShip.shipSeed = self.SeedInput.text()
+            print(randShip.shipSeed)
 
-        randShip.generateSpaceShip(randShip.shipSeed)
-        self.ShipView.setPixmap(QtGui.QPixmap("ShipParts/out.png"))
-        self.ShipName.setText(randShip.name)
-
+            randShip.generateSpaceShip(randShip.shipSeed)
+            self.ShipView.setPixmap(QtGui.QPixmap("ShipParts/out.png"))
+            self.ShipName.setText(randShip.name)
+        except Exception as err:
+            print(err)
 
 if __name__ == "__main__":
     if True:
