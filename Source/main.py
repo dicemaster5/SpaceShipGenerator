@@ -8,6 +8,7 @@ from PyQt5 import QtGui, uic, QtWidgets
 qtCreatorFile = "mainWindow.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
+# Initialise the ShipGenerator class
 randShip = ShipGenerator()
 
 # PyQT application.
@@ -21,6 +22,7 @@ class QtWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.RandoButton.clicked.connect(lambda: self.GenerateShipButton())
         self.SeedInput.returnPressed.connect(lambda: self.GenerateShipWithSeed())
 
+    # Function that generates a random ship based of a random seed
     def GenerateShipButton(self):
         try:
             randShip.randomSeed()
@@ -31,6 +33,7 @@ class QtWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except Exception as err:
             print(err)
 
+    # Function to generate a ship with a seed specified by the user
     def GenerateShipWithSeed(self):
         try:
             randShip.shipSeed = self.SeedInput.text()
@@ -42,6 +45,7 @@ class QtWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except Exception as err:
             print(err)
 
+# MAIN
 if __name__ == "__main__":
     if True:
         # Create qtApplication

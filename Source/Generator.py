@@ -1,6 +1,5 @@
 import time
 import random
-import numpy as np
 from PIL import Image, ImageOps
 
 class ShipGenerator:
@@ -10,50 +9,45 @@ class ShipGenerator:
         self.shipSeed = ""
 
         self.shipPartsImg = Image.open("ShipParts/ShipParts.png")
+        self.colourSchemes = Image.open("ShipParts/ColourSchemes.png")
         self.newShipOutput = "ShipParts/out.png"
 
         self.SpaceShipSize = (112, 112)
         self.newSpaceShipSize = (224, 224)
 
     def randomSeed(self):
-        # Set a seed to do a radnom seed
+        # Set a seed to do a random seed
         # Seedception
         random.seed(int(time.time() * 1000))
         self.shipSeed = str(random.randint(0, 99999999))
-        #random.seed(self.shipSeed)
 
+    # Picks a random ship name from this shipNames list
     def randomShipName(self):
         shipNames = ["Bebop", "Daedalus", "Explorer", "X-71s", "Mayflower One", "Excelsior", "Anastasia",
                      "F-302 Mongoose", "Odyssey", "Scorpio E-X-1", "Zero-X", "Athena", "Avalon", "Axiom",
-                     "Hyperion", "Nemesis", "Prometheus", "SDF-1 Macross", "Red Dwarf"]
+                     "Hyperion", "Nemesis", "Prometheus", "SDF-1 Macross", "Red Dwarf", "Eagle 5",
+                     "Orbit Jet", "Megazone", "C-57D", "Battlestar", "SA-43 Hammerhead Mk 1",
+                     "Hunter IV", "Nightflyer", "UFO", "UNSC Infinity", "Reaper", "Lucidity", "Starhammer"]
         self.name = shipNames[random.randrange(0, shipNames.__len__())]
 
     # Picks a random colour scheme and applies it to the ship
     def changeTheColour(self, spaceShipImage):
         # Setup
         i = 0
-        square = 16
         amountOfColours = 6
-        amountOfSchemes = 5
+        amountOfSchemes = 9
 
-        defaultScheme = (i * square, square * 13)
         randomColourScheme = random.randint(1, amountOfSchemes)
-        partsImg = self.shipPartsImg.load()
+        print(randomColourScheme)
+        coloursImg = self.colourSchemes.load()
         shipImg = spaceShipImage.load()
 
-        colourPointerPos = defaultScheme
-        currentColour = partsImg[colourPointerPos]
-
-        colourPointerPos = (0, square * randomColourScheme + square * 13)
-        newColour = partsImg[colourPointerPos]
-
-
         while i < amountOfColours:
-            colourPointerPos = (i * square, square * 13)
-            currentColour = partsImg[colourPointerPos]
+            colourPointerPos = (i, 0)
+            currentColour = coloursImg[colourPointerPos]
 
-            colourPointerPos = (i * square, square * randomColourScheme + square * 13)
-            newColour = partsImg[colourPointerPos]
+            colourPointerPos = (i, randomColourScheme)
+            newColour = coloursImg[colourPointerPos]
 
             # Change every pixel colour of the spaceShip Image
             for pixelX in range(spaceShipImage.size[0]):
